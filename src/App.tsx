@@ -5,6 +5,7 @@ import StatBar from "./components/StatBar";
 import ScenarioCard from "./components/ScenarioCard";
 import FeedbackPanel from "./components/FeedbackPanel";
 import GameEnd from "./components/GameEnd";
+import WelcomeScreen from "./components/WelcomeScreen";
 
 interface Stats {
   profit: number;
@@ -19,7 +20,7 @@ interface FeedbackState {
   changes: StatChanges;
 }
 
-type Phase = "playing" | "feedback" | "gameover" | "victory";
+type Phase = "welcome" | "playing" | "feedback" | "gameover" | "victory";
 
 const STAT_META = [
   { key: "profit" as const, icon: "💰", label: "Lợi nhuận", color: "#d4a843" },
@@ -59,7 +60,7 @@ const INITIAL_STATS: Stats = { profit: 50, workers: 50, government: 50, communit
 export default function App() {
   const [stats, setStats] = useState<Stats>(INITIAL_STATS);
   const [turn, setTurn] = useState(0);
-  const [phase, setPhase] = useState<Phase>("playing");
+  const [phase, setPhase] = useState<Phase>("welcome");
   const [feedback, setFeedback] = useState<FeedbackState | null>(null);
   const [gameOverReason, setGameOverReason] = useState("");
   const [hoverPreview, setHoverPreview] = useState<StatChanges | null>(null);
@@ -127,23 +128,23 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="min-h-screen flex flex-col overflow-hidden"
       style={{ background: "linear-gradient(160deg, #0f2013 0%, #0f1f12 50%, #0d1a0f 100%)" }}
     >
       {/* Header */}
       <header
-        className="flex items-center justify-between px-8 py-5 shrink-0"
+        className="flex items-center justify-between px-6 py-3 shrink-0"
         style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <div>
           <h1
-            className="text-lg font-bold leading-none"
+            className="text-base font-bold leading-none"
             style={{ fontFamily: "var(--font-display)", color: "#f5ede0", letterSpacing: "-0.01em" }}
           >
             Cân Bằng Lợi Ích
           </h1>
           <p
-            className="text-xs mt-0.5"
+            className="text-[10px] mt-0.5"
             style={{ color: "rgba(245,237,224,0.35)", fontFamily: "var(--font-body)", letterSpacing: "0.08em" }}
           >
             TRÒ CHƠI ĐẠO ĐỨC KINH DOANH
@@ -151,7 +152,7 @@ export default function App() {
         </div>
         {phase === "playing" || phase === "feedback" ? (
           <div
-            className="text-xs font-medium"
+            className="text-[10px] font-medium"
             style={{ color: "rgba(245,237,224,0.35)", fontFamily: "var(--font-body)", letterSpacing: "0.05em" }}
           >
             LƯỢT {Math.min(turn + 1, MAX_TURNS)} / {MAX_TURNS}
@@ -162,7 +163,7 @@ export default function App() {
       {/* Stat bars */}
       {(phase === "playing" || phase === "feedback") && (
         <div
-          className="px-8 py-4 flex flex-col gap-2.5 shrink-0"
+          className="px-6 py-2.5 flex flex-col gap-1.5 shrink-0"
           style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
         >
           {STAT_META.map(({ key, icon, label, color }) => (
@@ -179,7 +180,11 @@ export default function App() {
       )}
 
       {/* Main content */}
-      <main className="flex-1 flex items-center justify-center py-10 px-4">
+      <main className="flex-1 flex items-center justify-center py-4 px-4 overflow-y-auto">
+        {phase === "welcome" && (
+          <WelcomeScreen onStart={() => setPhase("playing")} />
+        )}
+
         {phase === "playing" && (
           <ScenarioCard
             scenario={GAME_SCENARIOS[turn]}
