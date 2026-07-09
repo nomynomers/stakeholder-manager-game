@@ -213,4 +213,68 @@ export const scenarios: Scenario[] = [
       changes: { profit: 5, workers: -22, government: -25, community: -18 },
     },
   },
+  {
+    id: 13,
+    category: "Chất lượng sản phẩm",
+    title: "Lỗi hệ thống phanh xe",
+    description: "Một linh kiện trong hệ thống phanh của dòng xe mới bán chạy nhất bị phát hiện có thể gặp sự cố dưới điều kiện thời tiết khắc nghiệt. Chưa có tai nạn nào xảy ra, nhưng thu hồi toàn bộ dòng xe này sẽ tốn kém chi phí khổng lồ.",
+    left: {
+      text: "Thu hồi tự nguyện công khai lập tức",
+      explanation: "Quyết định bảo đảm an toàn xây dựng sự tin cậy lâu dài sâu sắc từ cộng đồng và chính phủ. Lợi nhuận giảm mạnh do chi phí kỹ thuật, nhưng danh tiếng thương hiệu của bạn được cứu vãn.",
+      changes: { profit: -22, workers: 5, government: 15, community: 20 },
+    },
+    right: {
+      text: "Sửa âm thầm khi xe bảo dưỡng định kỳ",
+      explanation: "Báo chí sau đó phát hiện sự cố phanh và đưa tin rầm rộ. Khách hàng phẫn nộ tẩy chay thương hiệu, và cơ quan quản lý áp lệnh phạt kỷ lục vì trì hoãn công bố nguy cơ an toàn.",
+      changes: { profit: 5, workers: -5, government: -28, community: -25 },
+    },
+  },
+  {
+    id: 14,
+    category: "Đạo đức tiếp thị",
+    title: "Quảng cáo phóng đại công dụng",
+    description: "Đội ngũ marketing đề xuất chiến dịch quảng cáo tuyên bố dòng sản phẩm tiêu dùng mới của bạn hoàn toàn làm bằng nguyên liệu hữu cơ tự nhiên, mặc dù thực tế công ty vẫn sử dụng một lượng nhỏ hóa chất bảo quản để kéo dài hạn sử dụng.",
+    left: {
+      text: "Yêu cầu thay đổi, công bố trung thực",
+      explanation: "Duy trì tính trung thực giúp công ty tránh được các rủi ro pháp lý và tranh chấp kiện cáo sau này. Chiến dịch kém bùng nổ hơn, nhưng vị thế thương hiệu lâu dài được giữ sạch.",
+      changes: { profit: -5, workers: 5, government: 10, community: 12 },
+    },
+    right: {
+      text: "Phê duyệt chiến dịch để tăng doanh số",
+      explanation: "Báo cáo kiểm định độc lập vạch trần quảng cáo sai sự thật. Hiệp hội bảo vệ người tiêu dùng phát động tẩy chay và cơ quan quản lý phạt nặng vì hành vi lừa dối người dùng.",
+      changes: { profit: 15, workers: -5, government: -18, community: -20 },
+    },
+  },
+  {
+    id: 15,
+    category: "Văn hóa công sở",
+    title: "Vấn nạn làm việc quá giờ",
+    description: "Kháo sát nội bộ ẩn danh cho thấy nhân viên đang chịu áp lực cực lớn do văn hóa làm việc ngoài giờ ép buộc từ các quản lý cấp trung để kịp bàn giao dự án. Nhiều người đã kiệt sức và xin nghỉ việc.",
+    left: {
+      text: "Giới hạn giờ làm, tuyển thêm nhân sự",
+      explanation: "Lòng tin và sức khỏe của người lao động phục hồi nhanh chóng. Chi phí tuyển dụng và vận hành tăng nhẹ, nhưng hiệu suất làm việc đường dài và độ ổn định nhân lực tăng cao.",
+      changes: { profit: -12, workers: 24, government: 5, community: 8 },
+    },
+    right: {
+      text: "Duy trì tiến độ, tặng thưởng tài chính",
+      explanation: "Thưởng tiền không thể bù đắp sức khỏe thể chất và tinh thần. Nhiều nhân viên kỳ cựu từ chức, năng lực cốt lõi suy yếu và dư luận lên án gay gắt về môi trường độc hại.",
+      changes: { profit: 8, workers: -22, government: -5, community: -10 },
+    },
+  },
+  {
+    id: 16,
+    category: "Năng lượng xanh",
+    title: "Chuyển dịch năng lượng tái tạo",
+    description: "Có đề xuất đầu tư lắp đặt hệ thống điện mặt trời áp mái và sử dụng 100% năng lượng tái tạo cho toàn bộ chuỗi nhà máy. Chi phí đầu tư ban đầu rất cao và làm giảm dòng tiền nhàn rỗi.",
+    left: {
+      text: "Đầu tư chuyển dịch năng lượng sạch",
+      explanation: "Hành động dẫn đầu xu thế bảo vệ môi trường mang lại điểm cộng cực lớn đối với chính quyền địa phương và các chứng chỉ xanh quốc tế. Khách hàng ủng hộ mạnh mẽ thương hiệu bền vững.",
+      changes: { profit: -18, workers: 5, government: 16, community: 22 },
+    },
+    right: {
+      text: "Tiếp tục dùng điện lưới than đá giá rẻ",
+      explanation: "Tiết kiệm ngân sách đầu tư ban đầu, nhưng các nhóm hoạt động môi trường chỉ trích gay gắt vì lượng phát thải carbon lớn. Công ty đánh mất cơ hội tiếp cận dòng vốn ưu đãi xanh.",
+      changes: { profit: 10, workers: 0, government: -12, community: -15 },
+    },
+  },
 ];

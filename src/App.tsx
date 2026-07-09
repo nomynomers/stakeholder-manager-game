@@ -29,8 +29,9 @@ const STAT_META = [
   { key: "community" as const, icon: "🌳", label: "Cộng đồng", color: "#4ade80" },
 ];
 
-const GAME_SCENARIOS = scenarios.slice(0, 12);
-const MAX_TURNS = GAME_SCENARIOS.length;
+import type { Scenario } from "./data/scenarios";
+
+const MAX_TURNS = 12;
 
 const GAME_OVER_MESSAGES: Record<string, string> = {
   profit: "Công ty đã phá sản. Không có khả năng tài chính, không thể duy trì hoạt động, trả lương nhân viên hay đầu tư vào cộng đồng. Một doanh nghiệp đánh mất nền tảng kinh tế không thể phục vụ bất kỳ ai.",
@@ -55,6 +56,15 @@ function checkGameOver(stats: Stats): string | null {
   return null;
 }
 
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 const INITIAL_STATS: Stats = { profit: 50, workers: 50, government: 50, community: 50 };
 
 export default function App() {
@@ -65,11 +75,29 @@ export default function App() {
   const [gameOverReason, setGameOverReason] = useState("");
   const [hoverPreview, setHoverPreview] = useState<StatChanges | null>(null);
   const [pendingPhase, setPendingPhase] = useState<Phase | null>(null);
+  const [gameScenarios, setGameScenarios] = useState<Scenario[]>([]);
+
+  const initGame = useCallback(() => {
+    const shuffled = shuffleArray(scenarios).slice(0, MAX_TURNS);
+    setGameScenarios(shuffled);
+    setStats(INITIAL_STATS);
+    setTurn(0);
+    setFeedback(null);
+    setGameOverReason("");
+    setHoverPreview(null);
+    setPendingPhase(null);
+  }, []);
+
+  const handleStartGame = useCallback(() => {
+    initGame();
+    setPhase("playing");
+  }, [initGame]);
 
   const handleChoose = useCallback(
     (side: "left" | "right") => {
       if (phase !== "playing") return;
-      const scenario = GAME_SCENARIOS[turn];
+      const scenario = gameScenarios[turn];
+      if (!scenario) return;
       const choice = side === "left" ? scenario.left : scenario.right;
       const newStats = applyChanges(stats, choice.changes);
 
@@ -88,7 +116,7 @@ export default function App() {
         setPendingPhase(null);
       }
     },
-    [phase, turn, stats]
+    [phase, turn, stats, gameScenarios]
   );
 
   const handleContinue = useCallback(() => {
@@ -110,21 +138,17 @@ export default function App() {
         setHoverPreview(null);
         return;
       }
-      const scenario = GAME_SCENARIOS[turn];
+      const scenario = gameScenarios[turn];
+      if (!scenario) return;
       setHoverPreview(side === "left" ? scenario.left.changes : scenario.right.changes);
     },
-    [turn]
+    [turn, gameScenarios]
   );
 
   const handleRestart = useCallback(() => {
-    setStats(INITIAL_STATS);
-    setTurn(0);
+    initGame();
     setPhase("playing");
-    setFeedback(null);
-    setGameOverReason("");
-    setHoverPreview(null);
-    setPendingPhase(null);
-  }, []);
+  }, [initGame]);
 
   return (
     <div
@@ -182,12 +206,12 @@ export default function App() {
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center py-4 px-4 overflow-y-auto">
         {phase === "welcome" && (
-          <WelcomeScreen onStart={() => setPhase("playing")} />
+          <WelcomeScreen onStart={handleStartGame} />
         )}
 
-        {phase === "playing" && (
+        {phase === "playing" && gameScenarios[turn] && (
           <ScenarioCard
-            scenario={GAME_SCENARIOS[turn]}
+            scenario={gameScenarios[turn]}
             turn={turn}
             maxTurns={MAX_TURNS}
             onChoose={handleChoose}
